@@ -584,14 +584,32 @@ window.enableTextEditing=enableTextEditing;
 window.saveAndPushChanges=saveAndPushChanges;
 window.updateOriginalHTMLWithTextChanges=updateOriginalHTMLWithTextChanges;
 
-document.addEventListener('DOMContentLoaded', function () {
-    if (localStorage.getItem('featureEnabled') === 'false') {
-    showCustomAlertBox('error', 'Feature is disabled');
-    console.log("Feature is disabled");
-    return false;
+// document.addEventListener('DOMContentLoaded', function () {
+//     if (localStorage.getItem('featureEnabled') === 'false') {
+//     showCustomAlertBox('error', 'Feature is disabled');
+//     console.log("Feature is disabled");
+//     return false;
+//   }
+//     createButtons();
+// });
+document.addEventListener('DOMContentLoaded', initApp);
+
+function initApp() {
+  let featureEnabled = localStorage.getItem('featureEnabled');
+
+  // If value doesn't exist → set default
+  if (featureEnabled === null) {
+    featureEnabled = 'true';  // default state
+    localStorage.setItem('featureEnabled', featureEnabled);
   }
-    createButtons();
-});
+
+  if (featureEnabled === 'false') {
+    showCustomAlertBox('error', 'Feature is disabled');
+    return;
+  }
+
+  createButtons();
+}
 
 // Function to dynamically create and append the buttons
 function createButtons() {
