@@ -1,17 +1,18 @@
 // Listen for messages from parent (windows_postmessage.js will post them)
 window.addEventListener("message", (event) => {
+    // Only accept messages from parent
     if (event.origin !== "https://dev.turnr.co.in") return;
 
-    const message = event.data.message;
+    // Save feature state
+    localStorage.setItem("featureEnabled", event.data.message);
 
-    if (message === "false") {
+    if (event.data.message !== "false") {
+        // Only create buttons once and safely after DOM is ready
+        if (!document.getElementById("buttonContainer")) {
+            setTimeout(() => createButtons(), 0);
+        }
+    } else {
         showCustomAlertBox('error', 'Feature is disabled');
-        return;
-    }
-
-    // Only create buttons if they don't already exist
-    if (!document.getElementById("dynamicButton")) {
-        setTimeout(() => createButtons(), 0);
     }
 });
 // ==============Custom alert========================
@@ -518,9 +519,9 @@ window.saveAndPushChanges=saveAndPushChanges;
 window.updateOriginalHTMLWithTextChanges=updateOriginalHTMLWithTextChanges;
 window.downloadAllUpdatedFiles=downloadAllUpdatedFiles;
 
-document.addEventListener('DOMContentLoaded', function () {
-  if (localStorage.getItem("featureEnabled")==="load buttons") createButtons();
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//   if (localStorage.getItem("featureEnabled")==="load buttons") createButtons();
+// });
 
 function createButtons(){
   const buttonContainer=document.createElement('div');
