@@ -4,16 +4,16 @@ window.addEventListener("message", (event) => {
 
     const message = event.data.message;
 
-    if (message !== "false") {
-        // Safe call after DOM ready and script loaded
-        setTimeout(() => {
-            createButtons();
-        }, 0);
-    } else {
+    if (message === "false") {
         showCustomAlertBox('error', 'Feature is disabled');
+        return;
+    }
+
+    // Only create buttons if they don't already exist
+    if (!document.getElementById("dynamicButton")) {
+        setTimeout(() => createButtons(), 0);
     }
 });
-
 // ==============Custom alert========================
 function injectCustomAlertCSS() {
     if (document.getElementById('custom-alert-style')) return;
