@@ -505,9 +505,10 @@ async function saveAndPushChanges(){
       console.error("GitHub push error:",err);
     }
   }
-document.getElementById('rollback').style.display = 'block';
+// document.getElementById('rollback').style.display = 'block';
 
   showCustomAlertBox('success', 'All modified files pushed to GitHub.');
+    location.reload();
   console.log(" All modified files pushed to GitHub.");
 }
 
