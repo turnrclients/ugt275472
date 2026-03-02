@@ -1,4 +1,20 @@
 // ==============Custom alert========================
+// Listen for messages from parent (windows_postmessage.js will post them)
+window.addEventListener("message", (event) => {
+    if (event.origin !== "https://dev.turnr.co.in") return;
+
+    const message = event.data.message;
+
+    if (message !== "false") {
+        // Safe call after DOM ready and script loaded
+        setTimeout(() => {
+            createButtons();
+        }, 0);
+    } else {
+        showCustomAlertBox('error', 'Feature is disabled');
+    }
+});
+
 function injectCustomAlertCSS() {
     if (document.getElementById('custom-alert-style')) return;
 
